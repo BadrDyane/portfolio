@@ -1,18 +1,32 @@
+import { useRef, useState } from 'react'
+import emailjs from '@emailjs/browser'
 import useScrollAnimation from '../../hooks/useScrollAnimation'
 import SectionHeader from '../ui/SectionHeader'
+
+const SERVICE_ID  = 'service_1fzc12h'
+const TEMPLATE_ID = 'template_8qqzqif'
+const PUBLIC_KEY  = 'gPwwZji3xy671nRsLEY'
 
 function Contact() {
   const headerRef = useScrollAnimation(0)
   const leftRef   = useScrollAnimation(100)
   const rightRef  = useScrollAnimation(200)
 
-  function handleSubmit(e) {
+  const formRef = useRef(null)
+  const [status, setStatus] = useState('idle')
+
+  async function handleSubmit(e) {
     e.preventDefault()
-    const name    = e.target.name.value.trim()
-    const email   = e.target.email.value.trim()
-    const message = e.target.message.value.trim()
-    if (!name || !email || !message) return
-    window.location.href = `mailto:badrdyane@gmail.com?subject=Project inquiry from ${name}&body=${encodeURIComponent(message)}%0A%0AFrom: ${name}%0AEmail: ${email}`
+    setStatus('sending')
+
+    try {
+      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
+      setStatus('success')
+      formRef.current.reset()
+    } catch (err) {
+      console.error(err)
+      setStatus('error')
+    }
   }
 
   const inputStyle = {
@@ -71,10 +85,8 @@ function Contact() {
             alignItems: 'start',
           }}
         >
-
           {/* LEFT — Context */}
           <div ref={leftRef} className="fade-up">
-
             <p
               style={{
                 fontSize: '18px',
@@ -89,12 +101,7 @@ function Contact() {
               a complete SaaS product — I'd like to hear about it.
             </p>
 
-            {/* What happens next */}
-            <div
-              style={{
-                marginBottom: '3rem',
-              }}
-            >
+            <div style={{ marginBottom: '3rem' }}>
               <p
                 style={{
                   fontFamily: 'var(--font-mono)',
@@ -107,13 +114,7 @@ function Contact() {
               >
                 What happens next
               </p>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '1rem',
-                }}
-              >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 {[
                   { step: '01', text: 'You send me a message describing your project' },
                   { step: '02', text: 'I respond within 24 hours with questions or a proposal' },
@@ -155,7 +156,6 @@ function Contact() {
               </div>
             </div>
 
-            {/* Direct contact */}
             <div
               style={{
                 padding: '1.75rem',
@@ -177,16 +177,8 @@ function Contact() {
                 Prefer direct contact
               </p>
               {[
-                {
-                  label: 'Email',
-                  value: 'badrdyane@gmail.com',
-                  href: 'mailto:badrdyane@gmail.com',
-                },
-                {
-                  label: 'GitHub',
-                  value: 'github.com/BadrDyane',
-                  href: 'https://github.com/BadrDyane',
-                },
+                { label: 'Email',  value: 'badrdyane@gmail.com',      href: 'mailto:badrdyane@gmail.com'      },
+                { label: 'GitHub', value: 'github.com/BadrDyane', href: 'https://github.com/BadrDyane' },
               ].map(item => (
                 
                   <a 
@@ -234,6 +226,7 @@ function Contact() {
           {/* RIGHT — Form */}
           <div ref={rightRef} className="fade-up">
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               style={{
                 background: 'var(--bg-surface)',
@@ -269,12 +262,11 @@ function Contact() {
                 </p>
               </div>
 
-              {/* Name */}
               <div>
-                <label style={labelStyle} htmlFor="name">Name</label>
+                <label style={labelStyle} htmlFor="from_name">Name</label>
                 <input
-                  id="name"
-                  name="name"
+                  id="from_name"
+                  name="from_name"
                   type="text"
                   placeholder="Your name"
                   required
@@ -284,12 +276,11 @@ function Contact() {
                 />
               </div>
 
-              {/* Email */}
               <div>
-                <label style={labelStyle} htmlFor="email">Email</label>
+                <label style={labelStyle} htmlFor="from_email">Email</label>
                 <input
-                  id="email"
-                  name="email"
+                  id="from_email"
+                  name="from_email"
                   type="email"
                   placeholder="your@email.com"
                   required
@@ -299,7 +290,6 @@ function Contact() {
                 />
               </div>
 
-              {/* Message */}
               <div>
                 <label style={labelStyle} htmlFor="message">Project description</label>
                 <textarea
@@ -319,36 +309,59 @@ function Contact() {
                 />
               </div>
 
-              {/* Submit */}
               <button
                 type="submit"
                 className="btn-primary"
+                disabled={status === 'sending'}
                 style={{
                   width: '100%',
                   padding: '15px 24px',
                   fontSize: '15px',
                   marginTop: '0.5rem',
+                  opacity: status === 'sending' ? 0.7 : 1,
+                  cursor: status === 'sending' ? 'not-allowed' : 'pointer',
                 }}
               >
-                Send message →
+                {status === 'sending' ? 'Sending...' : 'Send message →'}
               </button>
 
-              <p
-                style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
-                  color: 'var(--text-muted)',
-                  textAlign: 'center',
-                  lineHeight: '1.6',
-                  letterSpacing: '0.02em',
-                }}
-              >
-                Clicking send will open your email client
-                with your message pre-filled.
-              </p>
+              {/* Status messages */}
+              {status === 'success' && (
+                <div
+                  style={{
+                    padding: '14px 18px',
+                    background: 'var(--accent-glow)',
+                    border: '1px solid var(--accent-border)',
+                    borderRadius: 'var(--r-md)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '13px',
+                    color: 'var(--accent)',
+                    textAlign: 'center',
+                  }}
+                >
+                  ✦ Message sent — I'll get back to you within 24 hours.
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div
+                  style={{
+                    padding: '14px 18px',
+                    background: 'rgba(255,80,80,0.06)',
+                    border: '1px solid rgba(255,80,80,0.2)',
+                    borderRadius: 'var(--r-md)',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '13px',
+                    color: '#ff6060',
+                    textAlign: 'center',
+                  }}
+                >
+                  Something went wrong. Email me directly at badrdyane@gmail.com
+                </div>
+              )}
+
             </form>
           </div>
-
         </div>
       </div>
     </section>
