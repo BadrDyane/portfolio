@@ -1,0 +1,545 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FONTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESIGN TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  /* Backgrounds */
+  --bg:             #08080F;
+  --bg-surface:     #0D0D1A;
+  --bg-card:        #101020;
+  --bg-card-hover:  #14142A;
+
+  /* Accent */
+  --accent:         #00C896;
+  --accent-dim:     #00A07A;
+  --accent-glow:    rgba(0, 200, 150, 0.08);
+  --accent-border:  rgba(0, 200, 150, 0.20);
+
+  /* Text */
+  --text:           #EEEEF8;
+  --text-mid:       #8888AA;
+  --text-muted:     #4A4A68;
+
+  /* Borders */
+  --border:         #151528;
+  --border-mid:     #1E1E38;
+  --border-light:   #282845;
+
+  /* Fonts */
+  --font-display:   'Syne', sans-serif;
+  --font-sans:      'DM Sans', sans-serif;
+  --font-mono:      'DM Mono', monospace;
+
+  /* Radius */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-xl:   22px;
+
+  /* Layout */
+  --max-w:         1200px;
+  --pad-container: 3rem;
+  --pad-section:   7rem;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LAYOUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-container);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.section {
+  padding: var(--pad-section) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.section-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.65;
+  max-width: 580px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BUTTONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #021a10;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 500;
+  padding: 14px 28px;
+  border-radius: var(--r-md);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dim);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 200, 150, 0.22);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  padding: 14px 28px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-mid);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ANIMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    will-change: opacity, transform;
+  }
+  
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+/* Hero animated gradient background */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero-glow {
+  position: absolute;
+  top: -200px;
+  right: -100px;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 200, 150, 0.06) 0%,
+    rgba(0, 200, 150, 0.02) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SCROLLBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SELECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+::selection {
+  background: var(--accent);
+  color: #021a10;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Large desktop — 1400px+ */
+@media (min-width: 1400px) {
+  :root {
+    --max-w: 1320px;
+    --pad-section: 8rem;
+  }
+  body { font-size: 19px; }
+  .section-title { font-size: 58px; }
+  .section-sub { font-size: 19px; }
+}
+
+/* Standard desktop — 1025px to 1399px */
+@media (max-width: 1399px) {
+  :root {
+    --max-w: 1200px;
+    --pad-section: 7rem;
+  }
+  body { font-size: 18px; }
+  .section-title { font-size: 52px; }
+}
+
+/* Laptop — 769px to 1024px */
+@media (max-width: 1024px) {
+  :root {
+    --max-w: 100%;
+    --pad-container: 2.5rem;
+    --pad-section: 5rem;
+  }
+  body { font-size: 17px; }
+  .section-title { font-size: 40px; }
+  .section-sub { font-size: 17px; }
+}
+
+/* Tablet — 481px to 768px */
+@media (max-width: 768px) {
+  :root {
+    --pad-container: 1.75rem;
+    --pad-section: 4rem;
+  }
+  body { font-size: 16px; }
+  .section-title { font-size: 32px; }
+  .section-sub { font-size: 16px; }
+}
+
+/* Mobile — up to 480px */
+@media (max-width: 480px) {
+  :root {
+    --pad-container: 1.25rem;
+    --pad-section: 3rem;
+  }
+  body { font-size: 15px; }
+  .section-title { font-size: 26px; }
+  .section-sub { font-size: 15px; }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr !important;
+      gap: 3rem !important;
+    }
+  
+    .hero-grid > div:last-child {
+      display: none;
+    }
+  
+    .hero-cta-mobile {
+      display: flex !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-grid h1 {
+      font-size: 52px !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-grid h1 {
+      font-size: 40px !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SERVICES RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 1024px) {
+    .services-grid-top {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  
+    .services-grid-bottom {
+      grid-template-columns: repeat(2, 1fr) !important;
+      max-width: 100% !important;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .services-grid-top {
+      grid-template-columns: 1fr !important;
+    }
+  
+    .services-grid-bottom {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   PROJECTS RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 900px) {
+    .case-study-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SKILLS RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+    .skills-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ABOUT RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 900px) {
+    .about-grid {
+      grid-template-columns: 1fr !important;
+      gap: 3rem !important;
+    }
+  
+    .facts-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .facts-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CONTACT RESPONSIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr !important;
+      gap: 3rem !important;
+    }
+  }
+
+  /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   MOBILE FIXES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* Navbar — hide links on mobile, keep logo + hire me */
+@media (max-width: 640px) {
+    .nav-links {
+      display: none !important;
+    }
+  }
+
+  /* Hero */
+@media (max-width: 960px) {
+    .hero-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2.5rem !important;
+    }
+  
+    .hero-grid > div:last-child {
+      display: none !important;
+    }
+  
+    .hero-cta-mobile {
+      display: flex !important;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero-grid h1 {
+      font-size: 52px !important;
+      letter-spacing: -0.03em !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero-grid h1 {
+      font-size: 38px !important;
+      letter-spacing: -0.02em !important;
+      line-height: 1.05 !important;
+    }
+  }
+  
+  /* Stats bar */
+  @media (max-width: 640px) {
+    .stats-bar {
+      grid-template-columns: 1fr !important;
+    }
+  
+    .stats-bar > div {
+      border-right: none !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+  
+    .stats-bar > div:last-child {
+      border-bottom: none !important;
+    }
+  }
+
+  /* Project case study grid */
+@media (max-width: 768px) {
+    .case-study-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  /* Services */
+@media (max-width: 768px) {
+    .services-grid-top {
+      grid-template-columns: 1fr !important;
+    }
+  
+    .services-grid-bottom {
+      grid-template-columns: 1fr !important;
+      max-width: 100% !important;
+    }
+  }
+
+  /* About */
+@media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2.5rem !important;
+    }
+  
+    .facts-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .facts-grid {
+      grid-template-columns: 1fr !important;
+    }
+  
+    .facts-grid > div {
+      border-right: none !important;
+      border-bottom: 1px solid var(--border) !important;
+    }
+  
+    .facts-grid > div:last-child {
+      border-bottom: none !important;
+    }
+  }
+
+  /* Contact */
+@media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr !important;
+      gap: 2.5rem !important;
+    }
+  }
+
+  /* Skills */
+@media (max-width: 640px) {
+    .skills-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
+  /* Reduce card padding on small screens */
+@media (max-width: 480px) {
+    .section {
+      padding: 3rem 0 !important;
+    }
+  }
