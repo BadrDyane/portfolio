@@ -49,30 +49,43 @@ function Footer() {
   
           {/* Links */}
           <div style={{ display: 'flex', gap: '2rem' }}>
-  {[
-    { label: 'GitHub', href: 'https://github.com/BadrDyane' },
-    { label: 'Email',  href: 'mailto:badrdyane@gmail.com'   },
-  ].map(link => (
-    
-      <a 
-      key={link.label}
-      href={link.href}
-      target="_blank"
-      rel="noreferrer"
-      style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: '13px',
-        color: 'var(--text-muted)',
-        textDecoration: 'none',
-        transition: 'color 0.2s',
-        letterSpacing: '0.02em',
-      }}
-      onMouseEnter={e => (e.target.style.color = 'var(--accent)')}
-      onMouseLeave={e => (e.target.style.color = 'var(--text-muted)')}
-    >
-      {link.label} ↗
-    </a>
-  ))}
+  
+    <a 
+    href="https://github.com/BadrDyane"
+    target="_blank"
+    rel="noreferrer"
+    style={{
+      fontFamily: 'var(--font-mono)',
+      fontSize: '13px',
+      color: 'var(--text-muted)',
+      textDecoration: 'none',
+      transition: 'color 0.2s',
+      letterSpacing: '0.02em',
+    }}
+    onMouseEnter={e => (e.target.style.color = 'var(--accent)')}
+    onMouseLeave={e => (e.target.style.color = 'var(--text-muted)')}
+  >
+    GitHub ↗
+  </a>
+
+  
+    <a 
+    href="https://mail.google.com/mail/?view=cm&to=badrdyane@gmail.com"
+    target="_blank"
+    rel="noreferrer"
+    style={{
+      fontFamily: 'var(--font-mono)',
+      fontSize: '13px',
+      color: 'var(--text-muted)',
+      textDecoration: 'none',
+      transition: 'color 0.2s',
+      letterSpacing: '0.02em',
+    }}
+    onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+    onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
+  >
+    Email ↗
+  </a>
 </div>
         </div>
       </footer>
