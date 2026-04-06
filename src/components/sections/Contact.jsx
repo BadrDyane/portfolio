@@ -1,30 +1,37 @@
-import { useRef, useState } from 'react'
-import emailjs from '@emailjs/browser'
+import { useState } from 'react'
 import useScrollAnimation from '../../hooks/useScrollAnimation'
 import SectionHeader from '../ui/SectionHeader'
 
-const SERVICE_ID  = 'service_1fzc12h'
-const TEMPLATE_ID = 'template_8qqzqif'
-const PUBLIC_KEY  = 'gPwwZji3xy671nRsLEY'
+const WEB3FORMS_KEY = 'f94de510-3f48-4da2-a0c7-3b6ff6768a37'
 
 function Contact() {
   const headerRef = useScrollAnimation(0)
   const leftRef   = useScrollAnimation(100)
   const rightRef  = useScrollAnimation(200)
 
-  const formRef = useRef(null)
   const [status, setStatus] = useState('idle')
 
   async function handleSubmit(e) {
     e.preventDefault()
     setStatus('sending')
 
+    const formData = new FormData(e.target)
+    formData.append('access_key', WEB3FORMS_KEY)
+
     try {
-      await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY)
-      setStatus('success')
-      formRef.current.reset()
-    } catch (err) {
-      console.error(err)
+      const res  = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        setStatus('success')
+        e.target.reset()
+      } else {
+        setStatus('error')
+      }
+    } catch {
       setStatus('error')
     }
   }
@@ -85,7 +92,8 @@ function Contact() {
             alignItems: 'start',
           }}
         >
-          {/* LEFT — Context */}
+
+          {/* LEFT */}
           <div ref={leftRef} className="fade-up">
             <p
               style={{
@@ -101,6 +109,7 @@ function Contact() {
               a complete SaaS product — I'd like to hear about it.
             </p>
 
+            {/* What happens next */}
             <div style={{ marginBottom: '3rem' }}>
               <p
                 style={{
@@ -156,6 +165,7 @@ function Contact() {
               </div>
             </div>
 
+            {/* Direct contact */}
             <div
               style={{
                 padding: '1.75rem',
@@ -176,9 +186,18 @@ function Contact() {
               >
                 Prefer direct contact
               </p>
+
               {[
-                { label: 'Email',  value: 'badrdyane@gmail.com',      href: 'mailto:badrdyane@gmail.com'      },
-                { label: 'GitHub', value: 'github.com/BadrDyane', href: 'https://github.com/BadrDyane' },
+                {
+                  label: 'Email',
+                  value: 'badrdyane@gmail.com',
+                  href: 'https://mail.google.com/mail/?view=cm&to=badrdyane@gmail.com',
+                },
+                {
+                  label: 'GitHub',
+                  value: 'github.com/BadrDyane',
+                  href: 'https://github.com/BadrDyane',
+                },
               ].map(item => (
                 
                   <a 
@@ -226,7 +245,6 @@ function Contact() {
           {/* RIGHT — Form */}
           <div ref={rightRef} className="fade-up">
             <form
-              ref={formRef}
               onSubmit={handleSubmit}
               style={{
                 background: 'var(--bg-surface)',
@@ -263,10 +281,10 @@ function Contact() {
               </div>
 
               <div>
-                <label style={labelStyle} htmlFor="from_name">Name</label>
+                <label style={labelStyle} htmlFor="name">Name</label>
                 <input
-                  id="from_name"
-                  name="from_name"
+                  id="name"
+                  name="name"
                   type="text"
                   placeholder="Your name"
                   required
@@ -277,10 +295,10 @@ function Contact() {
               </div>
 
               <div>
-                <label style={labelStyle} htmlFor="from_email">Email</label>
+                <label style={labelStyle} htmlFor="email">Email</label>
                 <input
-                  id="from_email"
-                  name="from_email"
+                  id="email"
+                  name="email"
                   type="email"
                   placeholder="your@email.com"
                   required
@@ -325,7 +343,6 @@ function Contact() {
                 {status === 'sending' ? 'Sending...' : 'Send message →'}
               </button>
 
-              {/* Status messages */}
               {status === 'success' && (
                 <div
                   style={{
@@ -362,6 +379,7 @@ function Contact() {
 
             </form>
           </div>
+
         </div>
       </div>
     </section>
